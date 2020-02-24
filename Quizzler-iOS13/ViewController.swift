@@ -22,7 +22,7 @@ class ViewController: UIViewController {
         ["West Virginia, USA, if you accidentally hit an animal with your car, you are free to take it home to eat.","True"]
     ]
     
-    var questionNumber = 0 ;
+    var questionNumber = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,30 +30,31 @@ class ViewController: UIViewController {
     }
 
     @IBAction func answerBtnPressed(_ sender: UIButton) {
-            
+        if  questionNumber < quiz.count {
             let userAnswer = sender.currentTitle
             let actualAnswer = quiz[questionNumber][1]
             
             if userAnswer == actualAnswer {
-                print("Right")
+                trueBtn.backgroundColor = UIColor.green
             }else {
-                print("Wrong")
+                falseBtn.backgroundColor = UIColor.red
             }
-        if  questionNumber < quiz.count {
-            makeQuiz()
-            questionNumber+=1;
+           Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(makeQuiz), userInfo: nil, repeats: false)
+
         } else {
             print("finished quiz")
-                
         }
     }
     
-    func makeQuiz(){
+    @objc func makeQuiz(){
         let totalQuestion : Float = Float(quiz.count)
-        let attemptedquestion : Float = Float(questionNumber)
-        let persentage : Float = Float(totalQuestion * 100 / attemptedquestion)
+        let attemptedquestion : Float = Float(questionNumber+1)
         question.text = quiz[questionNumber][0]
-        progressBar.progress = persentage
+        progressBar.progress = attemptedquestion / totalQuestion
+        trueBtn.backgroundColor = UIColor.clear
+        falseBtn.backgroundColor = UIColor.clear
+        questionNumber+=1;
+
     }
 }
 
